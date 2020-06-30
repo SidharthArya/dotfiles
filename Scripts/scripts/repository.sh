@@ -1,7 +1,7 @@
 #!/bin/sh
 CURRENT_DIRECTORY="$(pwd)"
 export IFS=$'\n'
-for i in $(cat ~/.local/scripts/assets/repository);
+for i in $(cat ~/Documents/Sync/repository);
 do
     cd "$i";
     git add .

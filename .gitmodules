@@ -1,3 +1,6 @@
 [submodule "Text Editors/Emacs"]
 	path = Text Editors/Emacs
 	url = https://github.com/SidharthArya/.emacs.d
+[submodule "Window Managers/Bspwm"]
+	path = Window Managers/Bspwm
+	url = https://github.com/SidharthArya/.bspwm
