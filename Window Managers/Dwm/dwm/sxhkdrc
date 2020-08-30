@@ -1,0 +1,31 @@
+XF86MonBrightnessDown
+        brightnessctl s 100-
+XF86MonBrightnessUp
+        brightnessctl s +100
+XF86Tools
+	redshift -O 3500K
+super + XF86Tools
+	redshift -x
+XF86AudioRaiseVolume
+	sh ~/.config/sxhkd/scripts/volume.sh increase
+XF86AudioLowerVolume
+	sh ~/.config/sxhkd/scripts/volume.sh decrease
+XF86AudioMute
+pactl list sinks | grep -q Mute:.no && pactl set-sink-mute 0 1 || pactl set-sink-mute 0 0
+super + d; {o,m,n,t}
+	emacs --config {org,mail,news,tracking}
+
+super + r; d
+         emacs --script ~/.emacs.d/scripts/daily
+super + r; q
+         emacs --script ~/.emacs.d/scripts/quote
+
+super + r; t
+         sh ~/.local/scripts/timenotify.sh
+
+super + r; c
+         sh ~/.config/sxhkd/scripts/timers.sh concentration
+
+super + r; C
+         pkill -f concentration && notify-send Timer "Timer Cancelled"
+

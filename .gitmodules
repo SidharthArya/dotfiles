@@ -4,3 +4,6 @@
 [submodule "Window Managers/Bspwm"]
 	path = Window Managers/Bspwm
 	url = https://github.com/SidharthArya/.bspwm
+[submodule "Suckless/dwm"]
+	path = Suckless/dwm
+	url = https://github.com/SidharthArya/dwm

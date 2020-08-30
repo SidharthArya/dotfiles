@@ -1,0 +1,39 @@
+
+(firefox:2812): Gtk-WARNING **: 12:03:52.593: Theme directory devices/symbolic of theme MacOS-3D has no size field
+
+
+(firefox:2812): Gtk-WARNING **: 12:03:52.593: Theme directory emblems/symbolic of theme MacOS-3D has no size field
+
+console.error: SearchCache: "_readCacheFile: Error reading cache file:" (new Error("", "(unknown module)"))
+1598769233957	Marionette	INFO	Listening on port 34275
+1598769234040	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: https://www.bsesdelhi.com/web/brpl/view-duplicate-bill, line 2390: TypeError: Liferay.Analytics is undefined
+JavaScript error: https://www.bsesdelhi.com/web/brpl/view-duplicate-bill, line 3751: TypeError: Liferay.Analytics is undefined
+JavaScript error: https://www.bsesdelhi.com/web/brpl/view-duplicate-bill, line 4052: TypeError: Liferay.Analytics is undefined
+JavaScript error: https://www.bsesdelhi.com/web/brpl/view-duplicate-bill, line 4438: TypeError: Liferay.Analytics is undefined
+JavaScript error: https://www.bsesdelhi.com/web/brpl/view-duplicate-bill, line 4768: TypeError: Liferay.Analytics is undefined
+JavaScript error: https://www.bsesdelhi.com/web/brpl/view-duplicate-bill, line 5079: TypeError: Liferay.Analytics is undefined
+JavaScript error: https://www.bsesdelhi.com/web/brpl/view-duplicate-bill, line 5688: TypeError: Liferay.Analytics is undefined
+1598769279905	Marionette	INFO	Stopped listening on port 34275
+
+(firefox:3286): Gtk-WARNING **: 12:04:44.893: Theme directory devices/symbolic of theme MacOS-3D has no size field
+
+
+(firefox:3286): Gtk-WARNING **: 12:04:44.894: Theme directory emblems/symbolic of theme MacOS-3D has no size field
+
+console.error: SearchCache: "_readCacheFile: Error reading cache file:" (new Error("", "(unknown module)"))
+1598769285908	Marionette	INFO	Listening on port 35585
+1598769285991	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: https://www.bsesdelhi.com/web/brpl/view-duplicate-bill, line 2390: TypeError: Liferay.Analytics is undefined
+JavaScript error: https://www.bsesdelhi.com/web/brpl/view-duplicate-bill, line 3751: TypeError: Liferay.Analytics is undefined
+JavaScript error: https://www.bsesdelhi.com/web/brpl/view-duplicate-bill, line 4052: TypeError: Liferay.Analytics is undefined
+JavaScript error: https://www.bsesdelhi.com/web/brpl/view-duplicate-bill, line 4438: TypeError: Liferay.Analytics is undefined
+JavaScript error: https://www.bsesdelhi.com/web/brpl/view-duplicate-bill, line 4768: TypeError: Liferay.Analytics is undefined
+JavaScript error: https://www.bsesdelhi.com/web/brpl/view-duplicate-bill, line 5079: TypeError: Liferay.Analytics is undefined
+JavaScript error: https://www.bsesdelhi.com/web/brpl/view-duplicate-bill, line 5724: TypeError: Liferay.Analytics is undefined
+1598769311476	Marionette	WARN	TimedPromise timed out after 500 ms: stacktrace:
+TimedPromise/<@chrome://marionette/content/sync.js:245:13
+TimedPromise@chrome://marionette/content/sync.js:230:10
+interaction.flushEventLoop@chrome://marionette/content/interaction.js:416:10
+webdriverClickElement@chrome://marionette/content/interaction.js:182:31
+1598769331713	Marionette	INFO	Stopped listening on port 35585

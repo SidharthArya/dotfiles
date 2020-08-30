@@ -49,4 +49,3 @@ try:
 except Exception as e:
   import subprocess
   subprocess.run(["notify-send", "Electricity Bill", str(e)])
-    
