@@ -10,3 +10,6 @@
 [submodule "Suckless/st"]
 	path = Suckless/st
 	url = https://github.com/SidharthArya/st
+[submodule "Scripts"]
+	path = Scripts
+	url = https://github.com/SidharthArya/scripts
