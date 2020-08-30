@@ -13,3 +13,6 @@
 [submodule "Scripts"]
 	path = Scripts
 	url = https://github.com/SidharthArya/scripts
+[submodule "Window Managers/Dwm"]
+	path = Window Managers/Dwm
+	url = https://github.com/SidharthArya/.dwm
