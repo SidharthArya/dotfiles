@@ -16,3 +16,9 @@
 [submodule "Window Managers/Dwm"]
 	path = Window Managers/Dwm
 	url = https://github.com/SidharthArya/.dwm
+[submodule "File Manager/nnn"]
+	path = File Manager/nnn
+	url = https://github.com/jarun/nnn
+[submodule "Dependencies/icons-in-terminal"]
+	path = Dependencies/icons-in-terminal
+	url = https://github.com/sebastiencs/icons-in-terminal
