@@ -1,7 +1,31 @@
 
-xmonad.hs:124:1: warning: [-Wtabs]
-    Tab character found here, and in three further locations.
+xmonad.hs:16:20: warning: [-Wdeprecations]
+    In the use of ‘defaultConfig’
+    (imported from XMonad, but defined in XMonad.Config):
+    Deprecated: "Use def (from Data.Default, and re-exported by XMonad and XMonad.Config) instead."
+   |
+16 |     xmonad $ docks defaultConfig
+   |                    ^^^^^^^^^^^^^
+
+xmonad.hs:17:52: warning: [-Wdeprecations]
+    In the use of ‘defaultConfig’
+    (imported from XMonad, but defined in XMonad.Config):
+    Deprecated: "Use def (from Data.Default, and re-exported by XMonad and XMonad.Config) instead."
+   |
+17 |         { manageHook = myManageHook <+> manageHook defaultConfig -- make sure to include myManageHook definition from above
+   |                                                    ^^^^^^^^^^^^^
+
+xmonad.hs:18:51: warning: [-Wdeprecations]
+    In the use of ‘defaultConfig’
+    (imported from XMonad, but defined in XMonad.Config):
+    Deprecated: "Use def (from Data.Default, and re-exported by XMonad and XMonad.Config) instead."
+   |
+18 |         , layoutHook = avoidStruts  $  layoutHook defaultConfig
+   |                                                   ^^^^^^^^^^^^^
+
+xmonad.hs:19:1: warning: [-Wtabs]
+    Tab character found here, and in four further locations.
     Please use spaces instead.
-    |
-124 |           --
-    | ^^^^^^^^
+   |
+19 |         , terminal = "st"
+   | ^^^^^^^^
