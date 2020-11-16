@@ -8,9 +8,12 @@ import System.IO
 import XMonad.Util.NamedScratchpad
 import XMonad.Hooks.EwmhDesktops
 import XMonad.Layout.Maximize
-
-
-myLayout = maximizeWithPadding 0 (Tall 1 (3/100) (1/2) ||| Full)
+import XMonad.Layout.Minimize
+import XMonad.Actions.Minimize
+import XMonad.Hooks.Minimize
+import qualified Data.Map                            as M
+import qualified XMonad.StackSet                     as W
+myLayout = minimize(maximizeWithPadding 0 (avoidStruts (Tall 1 (3/100) (1/2) ||| Full)))
 scratchpads = [
     NS "Tmux" "st -c Tmux -e tmux" (className =? "Tmux") nonFloating ,
     NS "Org" "emacs --config org" (title =? "Org") nonFloating ,
@@ -20,13 +23,14 @@ scratchpads = [
     ]
 
 myManageHook = namedScratchpadManageHook scratchpads 
-
+myHandleEventHook = minimizeEventHook
 main = do
     xmproc <- spawnPipe "xmobar"
     xmonad $ docks $ ewmh defaultConfig
         { manageHook = myManageHook <+> manageHook defaultConfig -- make sure to include myManageHook definition from above
-        , layoutHook = avoidStruts myLayout
+        , layoutHook = myLayout
 	, terminal = "st"
+	, handleEventHook = myHandleEventHook
         , logHook = dynamicLogWithPP xmobarPP
                         { ppOutput = hPutStrLn xmproc
                         , ppTitle = xmobarColor "green" "" . shorten 50
@@ -42,7 +46,18 @@ main = do
         , ("M-e n", namedScratchpadAction scratchpads "News")
         , ("M-e t", namedScratchpadAction scratchpads "Tracking")
         , ("M-e m", namedScratchpadAction scratchpads "Mail")
+        , ("M-d w", spawn "sh ~/.config/sxhkd/scripts/windows.sh")
         , ("M-x" , withFocused (sendMessage . maximizeRestore))
+        , ("M-c" , kill)
+        , ("M-S-c" , spawn "xkill -id $(xdo id)")
         , ("C-<Print>", spawn "sleep 0.2; scrot -s")
         , ("<Print>", spawn "scrot")
+       , ("M-z", withFocused minimizeWindow)
+       , ("M-S-z", withLastMinimized maximizeWindowAndFocus)
+       , ("M-t", withFocused toggleFloat)
+
         ]
+       	where
+		toggleFloat w = windows (\s -> if M.member w (W.floating s)
+                then W.sink w s
+                else (W.float w (W.RationalRect (1/3) (1/4) (1/2) (4/5)) s))
