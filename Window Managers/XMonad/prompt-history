@@ -1,1 +1,1 @@
-fromList [("Run: ",["xkill","xkill","firefox-developer-edition","xkill","xkill","xkill","st","xterm","st","st"])]
+fromList [("Run: ",["firefox-developer-edition","firefox-developer-edition","firefox-developer-edition","brave","emms","emacs --config none","firefox-developer-edition","emacs --config none","xkill","xkill","firefox-developer-edition","xkill","xkill","xkill","st","xterm","st","st"])]
