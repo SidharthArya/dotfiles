@@ -6,10 +6,10 @@ import XMonad.Util.EZConfig(additionalKeysP)
 import XMonad.Util.SpawnOnce
 import System.IO
 import XMonad.Util.NamedScratchpad
--- import XMonad.Hooks.EwmhDesktops
+import XMonad.Hooks.EwmhDesktops
 import XMonad.Layout.Maximize
-import XMonad.Layout.Minimize(minimize, RestoreNextMinimizedWin)
-
+import XMonad.Layout.BoringWindows
+import XMonad.Layout.Minimize
 import XMonad.Actions.Minimize
 import XMonad.Hooks.Minimize
 import qualified Data.Map                            as M
@@ -31,7 +31,7 @@ myFont :: String
 myFont = "xft:Noto Sans:size=10"
 
 
-myLayout = (maximizeWithPadding 0 (avoidStruts (minimize (Tall 1 (3/100) (1/2) ||| Full))))
+myLayout = (minimize (maximizeWithPadding 0 (avoidStruts  (Tall 1 (3/100) (1/2) ||| Full))))
 scratchpads = [
     NS "Tmux" "st -c Tmux -e tmux" (className =? "Tmux") nonFloating ,
     NS "Org" "emacs --config org" (title =? "Org") nonFloating ,
@@ -122,7 +122,7 @@ main = do
 	, borderWidth = 6
 	, normalBorderColor = "#001100"
 	, focusedBorderColor = "#006600"
-	, handleEventHook = myHandleEventHook
+	, handleEventHook = myHandleEventHook 
         , logHook = dynamicLogWithPP xmobarPP
                         { ppOutput = hPutStrLn xmproc
                         , ppTitle = xmobarColor "green" "" . shorten 50
@@ -145,7 +145,9 @@ main = do
         , ("C-<Print>", spawn "sleep 0.2; scrot -s")
         , ("<Print>", spawn "scrot")
        , ("M-z", withFocused minimizeWindow)
-       , ("M-S-z", sendMessage RestoreNextMinimizedWin)
+       , ("M-S-z",withLastMinimized maximizeWindowAndFocus)
+       , ("M-<Page_Up>", spawn "picom-trans -c +5")
+       , ("M-<Page_Down>", spawn "picom-trans -c -5")
        , ("M-t", withFocused toggleFloat)
        , ("M-p", shellPrompt runXPConfig)
        , ("M-r m", manPrompt runXPConfig)

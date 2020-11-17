@@ -1,9 +1,23 @@
 
-xmonad.hs:11:41: error:
-    Module
-    ‘XMonad.Layout.Minimize’
-    does not export
-    ‘RestoreNextMinimizedWin’
-   |
-11 | import XMonad.Layout.Minimize(minimize, RestoreNextMinimizedWin)
-   |                                         ^^^^^^^^^^^^^^^^^^^^^^^
+xmonad.hs:118:22: warning: [-Wdeprecations]
+    In the use of ‘defaultConfig’
+    (imported from XMonad, but defined in XMonad.Config):
+    Deprecated: "Use def (from Data.Default, and re-exported by XMonad and XMonad.Config) instead."
+    |
+118 |     xmonad $ docks $ defaultConfig
+    |                      ^^^^^^^^^^^^^
+
+xmonad.hs:119:52: warning: [-Wdeprecations]
+    In the use of ‘defaultConfig’
+    (imported from XMonad, but defined in XMonad.Config):
+    Deprecated: "Use def (from Data.Default, and re-exported by XMonad and XMonad.Config) instead."
+    |
+119 |         { manageHook = myManageHook <+> manageHook defaultConfig -- make sure to include myManageHook definition from above
+    |                                                    ^^^^^^^^^^^^^
+
+xmonad.hs:121:1: warning: [-Wtabs]
+    Tab character found here, and in 12 further locations.
+    Please use spaces instead.
+    |
+121 |         , terminal = "st"
+    | ^^^^^^^^
