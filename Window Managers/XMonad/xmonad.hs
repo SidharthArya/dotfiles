@@ -8,19 +8,21 @@ import System.IO
 import XMonad.Util.NamedScratchpad
 -- import XMonad.Hooks.EwmhDesktops
 import XMonad.Layout.Maximize
-import XMonad.Layout.Minimize
+import XMonad.Layout.Minimize(minimize, RestoreNextMinimizedWin)
+
 import XMonad.Actions.Minimize
 import XMonad.Hooks.Minimize
 import qualified Data.Map                            as M
 import qualified XMonad.StackSet                     as W
 import XMonad.Prompt
 import XMonad.Prompt.Shell
+import XMonad.Prompt.Man
 import XMonad.Prompt.FuzzyMatch
 import Data.Char (isSpace, toUpper)
 import Control.Arrow (first)
 import Data.List (isPrefixOf, nub)
 import XMonad.Prompt.Window
-
+import XMonad.Prompt.XMonad
 altMask :: KeyMask
 altMask = mod1Mask         -- Setting this for use in xprompts
 
@@ -100,6 +102,14 @@ myXPKeymap = M.fromList $
      , (xK_Escape, quit)
      ]
 
+xKill::Window -> X()
+xKill w = withDisplay $ \d -> do
+    wmdelt <- atom_WM_DELETE_WINDOW  ;  wmprot <- atom_WM_PROTOCOLS
+
+    protocols <- io $ getWMProtocols d w
+    io $ if wmdelt `elem` protocols
+    then killClient d w >> return ()
+        else killClient d w >> return ()
 
 myManageHook = namedScratchpadManageHook scratchpads 
 myHandleEventHook = minimizeEventHook
@@ -124,22 +134,25 @@ main = do
         [ ("M-S-z" , spawn "xscreensaver-command -lock")
         , ("M-S-r" , spawn "xmonad --recompile && xmonad --restart")
         , ("M-S-<Return>", namedScratchpadAction scratchpads "Tmux")
-        , ("M-e o", namedScratchpadAction scratchpads "Org")
-        , ("M-e n", namedScratchpadAction scratchpads "News")
-        , ("M-e t", namedScratchpadAction scratchpads "Tracking")
-        , ("M-e m", namedScratchpadAction scratchpads "Mail")
-        , ("M-d w", spawn "sh ~/.config/sxhkd/scripts/windows.sh")
+        , ("M-d o", namedScratchpadAction scratchpads "Org")
+        , ("M-d n", namedScratchpadAction scratchpads "News")
+        , ("M-d t", namedScratchpadAction scratchpads "Tracking")
+        , ("M-d m", namedScratchpadAction scratchpads "Mail")
         , ("M-x" , withFocused (sendMessage . maximizeRestore))
         , ("M-c" , kill)
-        , ("M-S-c" , spawn "xkill -id $(xdo id)")
+        , ("M-S-c" , withFocused xKill)
+	--spawn "xkill -id $(xdo id)")
         , ("C-<Print>", spawn "sleep 0.2; scrot -s")
         , ("<Print>", spawn "scrot")
        , ("M-z", withFocused minimizeWindow)
---       , ("M-S-z", sendMessage RestoreNextMinimizedWin)
+       , ("M-S-z", sendMessage RestoreNextMinimizedWin)
        , ("M-t", withFocused toggleFloat)
        , ("M-p", shellPrompt runXPConfig)
-       , ("M-d W", windowPrompt def Goto wsWindows)
-       , ("M-d w", windowPrompt def Bring allWindows)
+       , ("M-r m", manPrompt runXPConfig)
+       , ("M-r q", spawn "~/.emacs.d/scripts/quote")
+       , ("M-d x", xmonadPrompt runXPConfig)
+       , ("M-d S-w", windowPrompt runXPConfig Bring allWindows)
+       , ("M-d w", windowPrompt runXPConfig Goto allWindows)
         ]
        	where
 		toggleFloat w = windows (\s -> if M.member w (W.floating s)
