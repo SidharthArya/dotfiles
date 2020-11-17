@@ -1,3 +1,81 @@
+  -- Base
+import XMonad
+import System.IO (hPutStrLn)
+import System.Exit (exitSuccess)
+import qualified XMonad.StackSet as W
+
+    -- Actions
+import XMonad.Actions.CopyWindow (kill1, killAllOtherCopies)
+import XMonad.Actions.CycleWS (moveTo, shiftTo, WSType(..), nextScreen, prevScreen)
+import XMonad.Actions.GridSelect
+import XMonad.Actions.MouseResize
+import XMonad.Actions.Promote
+import XMonad.Actions.RotSlaves (rotSlavesDown, rotAllDown)
+import qualified XMonad.Actions.TreeSelect as TS
+import XMonad.Actions.WindowGo (runOrRaise)
+import XMonad.Actions.WithAll (sinkAll, killAll)
+import qualified XMonad.Actions.Search as S
+
+    -- Data
+import Data.Char (isSpace, toUpper)
+import Data.Monoid
+import Data.Maybe (isJust)
+import Data.Tree
+import qualified Data.Map as M
+
+    -- Hooks
+import XMonad.Hooks.DynamicLog (dynamicLogWithPP, wrap, xmobarPP, xmobarColor, shorten, PP(..))
+import XMonad.Hooks.EwmhDesktops  -- for some fullscreen events, also for xcomposite in obs.
+import XMonad.Hooks.FadeInactive
+import XMonad.Hooks.ManageDocks (avoidStruts, docksEventHook, manageDocks, ToggleStruts(..))
+import XMonad.Hooks.ManageHelpers (isFullscreen, doFullFloat)
+import XMonad.Hooks.ServerMode
+import XMonad.Hooks.SetWMName
+import XMonad.Hooks.WorkspaceHistory
+
+    -- Layouts
+import XMonad.Layout.GridVariants (Grid(Grid))
+import XMonad.Layout.SimplestFloat
+import XMonad.Layout.Spiral
+import XMonad.Layout.ResizableTile
+import XMonad.Layout.Tabbed
+import XMonad.Layout.ThreeColumns
+
+    -- Layouts modifiers
+import XMonad.Layout.LayoutModifier
+import XMonad.Layout.LimitWindows (limitWindows, increaseLimit, decreaseLimit)
+import XMonad.Layout.Magnifier
+import XMonad.Layout.MultiToggle (mkToggle, single, EOT(EOT), (??))
+import XMonad.Layout.MultiToggle.Instances (StdTransformers(NBFULL, MIRROR, NOBORDERS))
+import XMonad.Layout.NoBorders
+import XMonad.Layout.Renamed
+import XMonad.Layout.ShowWName
+import XMonad.Layout.Simplest
+import XMonad.Layout.Spacing
+import XMonad.Layout.SubLayouts
+import XMonad.Layout.WindowNavigation
+import XMonad.Layout.WindowArranger (windowArrange, WindowArrangerMsg(..))
+import qualified XMonad.Layout.ToggleLayouts as T (toggleLayouts, ToggleLayout(Toggle))
+import qualified XMonad.Layout.MultiToggle as MT (Toggle(..))
+
+    -- Prompt
+import XMonad.Prompt
+import XMonad.Prompt.Input
+import XMonad.Prompt.FuzzyMatch
+import XMonad.Prompt.Man
+import XMonad.Prompt.Pass
+import XMonad.Prompt.Shell
+import XMonad.Prompt.Ssh
+import XMonad.Prompt.XMonad
+import Control.Arrow (first)
+
+   -- Utilities
+import XMonad.Util.EZConfig (additionalKeysP)
+import XMonad.Util.NamedScratchpad
+import XMonad.Util.Run (runProcessWithInput, safeSpawn, spawnPipe)
+import XMonad.Util.SpawnOnce
+
+
 import XMonad
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
@@ -8,8 +86,10 @@ import System.IO
 import XMonad.Util.NamedScratchpad
 import XMonad.Hooks.EwmhDesktops
 import XMonad.Layout.Maximize
-import XMonad.Layout.BoringWindows
+--import XMonad.Layout.BoringWindows
+import XMonad.Layout.WindowNavigation
 import XMonad.Layout.Minimize
+import XMonad.Layout.NoBorders
 import XMonad.Actions.Minimize
 import XMonad.Hooks.Minimize
 import qualified Data.Map                            as M
@@ -23,15 +103,115 @@ import Control.Arrow (first)
 import Data.List (isPrefixOf, nub)
 import XMonad.Prompt.Window
 import XMonad.Prompt.XMonad
+import XMonad.Layout.Renamed
+import XMonad.Actions.MouseResize
+import XMonad.Layout.WindowArranger (windowArrange, WindowArrangerMsg(..))
+import qualified XMonad.Layout.ToggleLayouts as T (toggleLayouts, ToggleLayout(Toggle))
+import XMonad.Layout.MultiToggle (mkToggle, single, EOT(EOT), (??))
+import XMonad.Layout.MultiToggle.Instances (StdTransformers(NBFULL, MIRROR, NOBORDERS))
+import XMonad.Hooks.InsertPosition
 altMask :: KeyMask
 altMask = mod1Mask         -- Setting this for use in xprompts
 
 
 myFont :: String
 myFont = "xft:Noto Sans:size=10"
+-- The layout hook
+myLayoutHook = maximizeWithPadding 0 $ avoidStruts $ mouseResize $ windowArrange $ T.toggleLayouts floats
+               $ mkToggle (NBFULL ?? NOBORDERS ?? EOT) myDefaultLayout
+             where
+               myDefaultLayout =     tall
+                                 ||| magnify
+                                 ||| noBorders monocle
+                                 ||| floats
+                                 ||| noBorders tabs
+                                 ||| grid
+                                 ||| spirals
+                                 ||| threeCol
+                                 ||| threeRow
 
 
-myLayout = (minimize (maximizeWithPadding 0 (avoidStruts  (Tall 1 (3/100) (1/2) ||| Full))))
+-- Defining a bunch of layouts, many that I don't use.
+tall     = renamed [Replace "tall"]
+           $ windowNavigation
+           $ addTabs shrinkText myTabTheme
+           $ subLayout [] (smartBorders Simplest)
+           $ limitWindows 12
+           $ mySpacing 8
+           $ ResizableTall 1 (3/100) (1/2) []
+magnify  = renamed [Replace "magnify"]
+           $ windowNavigation
+           $ addTabs shrinkText myTabTheme
+           $ subLayout [] (smartBorders Simplest)
+           $ magnifier
+           $ limitWindows 12
+           $ mySpacing 8
+           $ ResizableTall 1 (3/100) (1/2) []
+monocle  = renamed [Replace "monocle"]
+           $ windowNavigation
+           $ addTabs shrinkText myTabTheme
+           $ subLayout [] (smartBorders Simplest)
+           $ limitWindows 20 Full
+floats   = renamed [Replace "floats"]
+           $ windowNavigation
+           $ addTabs shrinkText myTabTheme
+           $ subLayout [] (smartBorders Simplest)
+           $ limitWindows 20 simplestFloat
+grid     = renamed [Replace "grid"]
+           $ windowNavigation
+           $ addTabs shrinkText myTabTheme
+           $ subLayout [] (smartBorders Simplest)
+           $ limitWindows 12
+           $ mySpacing 8
+           $ mkToggle (single MIRROR)
+           $ Grid (16/10)
+spirals  = renamed [Replace "spirals"]
+           $ windowNavigation
+           $ addTabs shrinkText myTabTheme
+           $ subLayout [] (smartBorders Simplest)
+           $ mySpacing' 8
+           $ spiral (6/7)
+threeCol = renamed [Replace "threeCol"]
+           $ windowNavigation
+           $ addTabs shrinkText myTabTheme
+           $ subLayout [] (smartBorders Simplest)
+           $ limitWindows 7
+           $ mySpacing' 4
+           $ ThreeCol 1 (3/100) (1/2)
+threeRow = renamed [Replace "threeRow"]
+           $ windowNavigation
+           $ addTabs shrinkText myTabTheme
+           $ subLayout [] (smartBorders Simplest)
+           $ limitWindows 7
+           $ mySpacing' 4
+           -- Mirror takes a layout and rotates it by 90 degrees.
+           -- So we are applying Mirror to the ThreeCol layout.
+           $ Mirror
+           $ ThreeCol 1 (3/100) (1/2)
+tabs     = renamed [Replace "tabs"]
+           -- I cannot add spacing to this layout because it will
+           -- add spacing between window and tabs which looks bad.
+           $ tabbed shrinkText myTabTheme
+
+mySpacing :: Integer -> l a -> XMonad.Layout.LayoutModifier.ModifiedLayout Spacing l a
+mySpacing i = spacingRaw False (Border i i i i) True (Border i i i i) True
+
+-- Below is a variation of the above except no borders are applied
+-- if fewer than two windows. So a single window has no gaps.
+mySpacing' :: Integer -> l a -> XMonad.Layout.LayoutModifier.ModifiedLayout Spacing l a
+mySpacing' i = spacingRaw True (Border i i i i) True (Border i i i i) True
+
+
+myTabTheme = def { fontName            = myFont
+                 , activeColor         = "#46d9ff"
+                 , inactiveColor       = "#313846"
+                 , activeBorderColor   = "#46d9ff"
+                 , inactiveBorderColor = "#282c34"
+                 , activeTextColor     = "#282c34"
+                 , inactiveTextColor   = "#d0d0d0"
+                 }
+
+
 scratchpads = [
     NS "Tmux" "st -c Tmux -e tmux" (className =? "Tmux") nonFloating ,
     NS "Org" "emacs --config org" (title =? "Org") nonFloating ,
@@ -117,8 +297,8 @@ myHandleEventHook = minimizeEventHook
 main = do
     xmproc <- spawnPipe "xmobar"
     xmonad $ docks $  ewmh $ defaultConfig
-        { manageHook = myManageHook <+> manageHook defaultConfig -- make sure to include myManageHook definition from above
-        , layoutHook = myLayout
+        { manageHook = insertPosition Master Newer <+> myManageHook <+> manageHook defaultConfig 
+        , layoutHook = myLayoutHook
 	, terminal = "st"
 	, borderWidth = 6
 	, normalBorderColor = "#001100"
