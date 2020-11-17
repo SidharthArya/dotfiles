@@ -113,20 +113,21 @@ xKill w = withDisplay $ \d -> do
 
 myManageHook = namedScratchpadManageHook scratchpads 
 myHandleEventHook = minimizeEventHook
+
 main = do
     xmproc <- spawnPipe "xmobar"
-    xmonad $ docks $ defaultConfig
+    xmonad $ docks $  ewmh $ defaultConfig
         { manageHook = myManageHook <+> manageHook defaultConfig -- make sure to include myManageHook definition from above
         , layoutHook = myLayout
 	, terminal = "st"
 	, borderWidth = 6
 	, normalBorderColor = "#001100"
 	, focusedBorderColor = "#006600"
-	, handleEventHook = myHandleEventHook 
+	, handleEventHook = myHandleEventHook  
         , logHook = dynamicLogWithPP xmobarPP
                         { ppOutput = hPutStrLn xmproc
                         , ppTitle = xmobarColor "green" "" . shorten 50
-                        }
+                        } 
         , modMask = mod4Mask
 	, startupHook = do
 			spawnOnce "sh ~/.config/sxhkd/scripts/session_start.sh"
