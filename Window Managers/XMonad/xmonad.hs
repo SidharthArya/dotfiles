@@ -13,7 +13,7 @@ import XMonad.Actions.Minimize
 import XMonad.Hooks.Minimize
 import qualified Data.Map                            as M
 import qualified XMonad.StackSet                     as W
-myLayout = minimize(maximizeWithPadding 0 (avoidStruts (Tall 1 (3/100) (1/2) ||| Full)))
+myLayout = (maximizeWithPadding 0 (avoidStruts (minimize (Tall 1 (3/100) (1/2) ||| Full))))
 scratchpads = [
     NS "Tmux" "st -c Tmux -e tmux" (className =? "Tmux") nonFloating ,
     NS "Org" "emacs --config org" (title =? "Org") nonFloating ,
@@ -53,7 +53,7 @@ main = do
         , ("C-<Print>", spawn "sleep 0.2; scrot -s")
         , ("<Print>", spawn "scrot")
        , ("M-z", withFocused minimizeWindow)
-       , ("M-S-z", withLastMinimized maximizeWindowAndFocus)
+       , ("M-S-z", sendMessage RestoreNextMinimizedWin)
        , ("M-t", withFocused toggleFloat)
 
         ]

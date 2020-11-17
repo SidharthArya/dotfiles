@@ -1,23 +1,6 @@
 
-xmonad.hs:29:27: warning: [-Wdeprecations]
-    In the use of ‘defaultConfig’
-    (imported from XMonad, but defined in XMonad.Config):
-    Deprecated: "Use def (from Data.Default, and re-exported by XMonad and XMonad.Config) instead."
+xmonad.hs:56:32: error:
+    Data constructor not in scope: RestoreNextMinimizedWin
    |
-29 |     xmonad $ docks $ ewmh defaultConfig
-   |                           ^^^^^^^^^^^^^
-
-xmonad.hs:30:52: warning: [-Wdeprecations]
-    In the use of ‘defaultConfig’
-    (imported from XMonad, but defined in XMonad.Config):
-    Deprecated: "Use def (from Data.Default, and re-exported by XMonad and XMonad.Config) instead."
-   |
-30 |         { manageHook = myManageHook <+> manageHook defaultConfig -- make sure to include myManageHook definition from above
-   |                                                    ^^^^^^^^^^^^^
-
-xmonad.hs:32:1: warning: [-Wtabs]
-    Tab character found here, and in 8 further locations.
-    Please use spaces instead.
-   |
-32 |         , terminal = "st"
-   | ^^^^^^^^
+56 |        , ("M-S-z", sendMessage RestoreNextMinimizedWin)
+   |                                ^^^^^^^^^^^^^^^^^^^^^^^
