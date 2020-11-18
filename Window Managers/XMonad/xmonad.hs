@@ -1,4 +1,4 @@
-  -- Base
+ -- Base
 import XMonad
 import System.IO (hPutStrLn)
 import System.Exit (exitSuccess)
