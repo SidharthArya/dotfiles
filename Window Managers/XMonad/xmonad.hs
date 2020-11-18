@@ -47,7 +47,6 @@ import XMonad.Layout.LimitWindows (limitWindows, increaseLimit, decreaseLimit)
 import XMonad.Layout.Magnifier
 import XMonad.Layout.MultiToggle (mkToggle, single, EOT(EOT), (??))
 import XMonad.Layout.MultiToggle.Instances (StdTransformers(NBFULL, MIRROR, NOBORDERS))
-import XMonad.Layout.NoBorders
 import XMonad.Layout.Renamed
 import XMonad.Layout.ShowWName
 import XMonad.Layout.Simplest
@@ -137,7 +136,6 @@ tall     = renamed [Replace "tall"]
            $ addTabs shrinkText myTabTheme
            $ subLayout [] (smartBorders Simplest)
            $ limitWindows 12
-           $ mySpacing 8
            $ ResizableTall 1 (3/100) (1/2) []
 magnify  = renamed [Replace "magnify"]
            $ windowNavigation
@@ -145,7 +143,6 @@ magnify  = renamed [Replace "magnify"]
            $ subLayout [] (smartBorders Simplest)
            $ magnifier
            $ limitWindows 12
-           $ mySpacing 8
            $ ResizableTall 1 (3/100) (1/2) []
 monocle  = renamed [Replace "monocle"]
            $ windowNavigation
@@ -162,28 +159,24 @@ grid     = renamed [Replace "grid"]
            $ addTabs shrinkText myTabTheme
            $ subLayout [] (smartBorders Simplest)
            $ limitWindows 12
-           $ mySpacing 8
            $ mkToggle (single MIRROR)
            $ Grid (16/10)
 spirals  = renamed [Replace "spirals"]
            $ windowNavigation
            $ addTabs shrinkText myTabTheme
            $ subLayout [] (smartBorders Simplest)
-           $ mySpacing' 8
            $ spiral (6/7)
 threeCol = renamed [Replace "threeCol"]
            $ windowNavigation
            $ addTabs shrinkText myTabTheme
            $ subLayout [] (smartBorders Simplest)
            $ limitWindows 7
-           $ mySpacing' 4
            $ ThreeCol 1 (3/100) (1/2)
 threeRow = renamed [Replace "threeRow"]
            $ windowNavigation
            $ addTabs shrinkText myTabTheme
            $ subLayout [] (smartBorders Simplest)
            $ limitWindows 7
-           $ mySpacing' 4
            -- Mirror takes a layout and rotates it by 90 degrees.
            -- So we are applying Mirror to the ThreeCol layout.
            $ Mirror
@@ -336,6 +329,27 @@ main = do
        , ("M-d x", xmonadPrompt runXPConfig)
        , ("M-d S-w", windowPrompt runXPConfig Bring allWindows)
        , ("M-d w", windowPrompt runXPConfig Goto allWindows)
+       , ("M-b", sendMessage $ MT.Toggle NOBORDERS)
+       , ("M-C-h", sendMessage $ pullGroup L)
+       , ("M-C-l", sendMessage $ pullGroup R)
+       , ("M-C-k", sendMessage $ pullGroup U)
+       , ("M-C-j", sendMessage $ pullGroup D)
+
+       , ("M-C-m", withFocused (sendMessage . MergeAll))
+       , ("M-C-u", withFocused (sendMessage . UnMerge))
+
+       , ("M-C-.", onGroup W.focusUp')
+       , ("M-C-,", onGroup W.focusDown')
+       
+       , ("<XF86AudioRaiseVolume>", spawn "sh ~/.config/sxhkd/scripts/volume.sh increase")
+       , ("<XF86AudioLowerVolume>", spawn "sh ~/.config/sxhkd/scripts/volume.sh decrease")
+       , ("<XF86MonBrightnessDown>", spawn "brightnessctl s 100-")
+       , ("<XF86MonBrightnessUp>", spawn "brightnessctl s +100")
+       , ("<XF86Tools>", spawn "redshift -O 3500K")
+       , ("M-<XF86Tools>", spawn "redshift -x")
+       , ("<XF86AudioMute>", spawn "pactl list sinks | grep -q Mute:.no && pactl set-sink-mute 0 1 || pactl set-sink-mute 0 0")
+       , ("<XF86AudioMicMute>", spawn "pactl set-source-mute 1 toggle")
+
         ]
        	where
 		toggleFloat w = windows (\s -> if M.member w (W.floating s)
