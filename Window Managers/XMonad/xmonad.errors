@@ -1,23 +1,6 @@
 
-xmonad.hs:292:30: warning: [-Wdeprecations]
-    In the use of ‘defaultConfig’
-    (imported from XMonad, but defined in XMonad.Config):
-    Deprecated: "Use def (from Data.Default, and re-exported by XMonad and XMonad.Config) instead."
+xmonad.hs:120:20: error:
+    Not in scope: data constructor ‘NonNegative’
     |
-292 |     xmonad $ docks $  ewmh $ defaultConfig
-    |                              ^^^^^^^^^^^^^
-
-xmonad.hs:293:84: warning: [-Wdeprecations]
-    In the use of ‘defaultConfig’
-    (imported from XMonad, but defined in XMonad.Config):
-    Deprecated: "Use def (from Data.Default, and re-exported by XMonad and XMonad.Config) instead."
-    |
-293 |         { manageHook = insertPosition Master Newer <+> myManageHook <+> manageHook defaultConfig 
-    |                                                                                    ^^^^^^^^^^^^^
-
-xmonad.hs:295:1: warning: [-Wtabs]
-    Tab character found here, and in 12 further locations.
-    Please use spaces instead.
-    |
-295 |         , terminal = "st"
-    | ^^^^^^^^
+120 | prop_sendmsg_full (NonNegative k) =
+    |                    ^^^^^^^^^^^

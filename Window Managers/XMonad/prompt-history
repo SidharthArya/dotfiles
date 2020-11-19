@@ -1,1 +1,1 @@
-fromList [("Run: ",["firefox"])]
+fromList [("Go to window: ",["tmux [2]"]),("Run: ",["brave","scrot","firefox","thunderbird","thunderbird","thumbpdf","teams","firefox","firefox","firefox","firefox"])]

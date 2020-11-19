@@ -36,6 +36,7 @@ import XMonad.Hooks.WorkspaceHistory
     -- Layouts
 import XMonad.Layout.GridVariants (Grid(Grid))
 import XMonad.Layout.SimplestFloat
+import XMonad.Layout.SimpleFloat
 import XMonad.Layout.Spiral
 import XMonad.Layout.ResizableTile
 import XMonad.Layout.Tabbed
@@ -73,6 +74,7 @@ import XMonad.Util.EZConfig (additionalKeysP)
 import XMonad.Util.NamedScratchpad
 import XMonad.Util.Run (runProcessWithInput, safeSpawn, spawnPipe)
 import XMonad.Util.SpawnOnce
+
 
 
 import XMonad
@@ -113,13 +115,18 @@ altMask :: KeyMask
 altMask = mod1Mask         -- Setting this for use in xprompts
 
 
+
+-- what happens when we send an IncMaster message to Full --- Nothing
+prop_sendmsg_full (NonNegative k) =
+         isNothing (Full `pureMessage` (SomeMessage (IncMasterN k)))
+
 myFont :: String
 myFont = "xft:Noto Sans:size=10"
 -- The layout hook
-myLayoutHook = maximizeWithPadding 0 $ avoidStruts $ mouseResize $ windowArrange $ T.toggleLayouts floats
+myLayoutHook = maximizeWithPadding 0 $ smartBorders $ avoidStruts $ mouseResize $ windowArrange $ T.toggleLayouts floats
                $ mkToggle (NBFULL ?? NOBORDERS ?? EOT) myDefaultLayout
              where
-               myDefaultLayout =     tall
+               myDefaultLayout =     withBorder 2 $ tall
                                  ||| magnify
                                  ||| noBorders monocle
                                  ||| floats
@@ -134,58 +141,57 @@ myLayoutHook = maximizeWithPadding 0 $ avoidStruts $ mouseResize $ windowArrange
 tall     = renamed [Replace "tall"]
            $ windowNavigation
            $ addTabs shrinkText myTabTheme
-           $ subLayout [] (smartBorders Simplest)
+           $ subLayout [] (noBorders Simplest)
            $ limitWindows 12
+           $ mySpacing 2
            $ ResizableTall 1 (3/100) (1/2) []
 magnify  = renamed [Replace "magnify"]
            $ windowNavigation
            $ addTabs shrinkText myTabTheme
-           $ subLayout [] (smartBorders Simplest)
+           $ subLayout [] (noBorders Simplest)
            $ magnifier
            $ limitWindows 12
            $ ResizableTall 1 (3/100) (1/2) []
 monocle  = renamed [Replace "monocle"]
            $ windowNavigation
            $ addTabs shrinkText myTabTheme
-           $ subLayout [] (smartBorders Simplest)
+           $ subLayout [] (noBorders Simplest)
            $ limitWindows 20 Full
 floats   = renamed [Replace "floats"]
            $ windowNavigation
            $ addTabs shrinkText myTabTheme
-           $ subLayout [] (smartBorders Simplest)
+           $ subLayout [] (noBorders Simplest)
            $ limitWindows 20 simplestFloat
 grid     = renamed [Replace "grid"]
            $ windowNavigation
            $ addTabs shrinkText myTabTheme
-           $ subLayout [] (smartBorders Simplest)
+           $ subLayout [] (noBorders Simplest)
            $ limitWindows 12
            $ mkToggle (single MIRROR)
            $ Grid (16/10)
 spirals  = renamed [Replace "spirals"]
            $ windowNavigation
            $ addTabs shrinkText myTabTheme
-           $ subLayout [] (smartBorders Simplest)
+           $ subLayout [] (noBorders Simplest)
            $ spiral (6/7)
 threeCol = renamed [Replace "threeCol"]
            $ windowNavigation
            $ addTabs shrinkText myTabTheme
-           $ subLayout [] (smartBorders Simplest)
+           $ subLayout [] (noBorders Simplest)
            $ limitWindows 7
            $ ThreeCol 1 (3/100) (1/2)
 threeRow = renamed [Replace "threeRow"]
            $ windowNavigation
            $ addTabs shrinkText myTabTheme
-           $ subLayout [] (smartBorders Simplest)
+           $ subLayout [] (noBorders Simplest)
            $ limitWindows 7
            -- Mirror takes a layout and rotates it by 90 degrees.
            -- So we are applying Mirror to the ThreeCol layout.
            $ Mirror
            $ ThreeCol 1 (3/100) (1/2)
 tabs     = renamed [Replace "tabs"]
-           -- I cannot add spacing to this layout because it will
-           -- add spacing between window and tabs which looks bad.
            $ tabbed shrinkText myTabTheme
-
+floating = withBorder 5 $ simpleFloat
 mySpacing :: Integer -> l a -> XMonad.Layout.LayoutModifier.ModifiedLayout Spacing l a
 mySpacing i = spacingRaw False (Border i i i i) True (Border i i i i) True
 
@@ -293,9 +299,8 @@ main = do
         { manageHook = insertPosition Master Newer <+> myManageHook <+> manageHook defaultConfig 
         , layoutHook = myLayoutHook
 	, terminal = "st"
-	, borderWidth = 6
 	, normalBorderColor = "#001100"
-	, focusedBorderColor = "#006600"
+	, focusedBorderColor = "#00ff00"
 	, handleEventHook = myHandleEventHook  
         , logHook = dynamicLogWithPP xmobarPP
                         { ppOutput = hPutStrLn xmproc
@@ -340,7 +345,7 @@ main = do
 
        , ("M-C-.", onGroup W.focusUp')
        , ("M-C-,", onGroup W.focusDown')
-       
+       ,("M-C-b", sendMessage $ ToggleStrut U)
        , ("<XF86AudioRaiseVolume>", spawn "sh ~/.config/sxhkd/scripts/volume.sh increase")
        , ("<XF86AudioLowerVolume>", spawn "sh ~/.config/sxhkd/scripts/volume.sh decrease")
        , ("<XF86MonBrightnessDown>", spawn "brightnessctl s 100-")
