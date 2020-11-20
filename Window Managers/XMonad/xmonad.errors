@@ -1,23 +1,34 @@
 
-xmonad.hs:303:30: warning: [-Wdeprecations]
-    In the use of ‘defaultConfig’
-    (imported from XMonad, but defined in XMonad.Config):
-    Deprecated: "Use def (from Data.Default, and re-exported by XMonad and XMonad.Config) instead."
+xmonad.hs:129:3: error:
+    • Couldn't match type ‘[]’ with ‘IO’
+      Expected type: IO [Char]
+        Actual type: [[Char]]
+    • In a stmt of a 'do' block: splitOn "+" finance
+      In the expression:
+        do finance <- readProcess
+                        "rg"
+                        ["http",
+                         "/home/arya/Documents/Org/Brain/Learning/Business/StockMarket.org"]
+                        ""
+           splitOn "+" finance
+      In an equation for ‘financeWebsites’:
+          financeWebsites
+            = do finance <- readProcess "rg" ["http", ....] ""
+                 splitOn "+" finance
     |
-303 |     xmonad $ docks $  ewmh $ defaultConfig
-    |                              ^^^^^^^^^^^^^
+129 |   Data.List.Split.splitOn "+" finance
+    |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-xmonad.hs:304:84: warning: [-Wdeprecations]
-    In the use of ‘defaultConfig’
-    (imported from XMonad, but defined in XMonad.Config):
-    Deprecated: "Use def (from Data.Default, and re-exported by XMonad and XMonad.Config) instead."
+xmonad.hs:342:42: error:
+    • Couldn't match expected type ‘[String]’
+                  with actual type ‘IO [Char]’
+    • In the first argument of ‘mkComplFunFromList'’, namely
+        ‘financeWebsites’
+      In the third argument of ‘inputPromptWithCompl’, namely
+        ‘(mkComplFunFromList' financeWebsites)’
+      In the first argument of ‘(?+)’, namely
+        ‘inputPromptWithCompl
+           runXPConfig "Finance" (mkComplFunFromList' financeWebsites)’
     |
-304 |         { manageHook = insertPosition Master Newer <+> myManageHook <+> manageHook defaultConfig 
-    |                                                                                    ^^^^^^^^^^^^^
-
-xmonad.hs:306:1: warning: [-Wtabs]
-    Tab character found here, and in 11 further locations.
-    Please use spaces instead.
-    |
-306 |         , terminal = "st"
-    | ^^^^^^^^
+342 |                     (mkComplFunFromList' financeWebsites ) ?+ browse)
+    |                                          ^^^^^^^^^^^^^^^

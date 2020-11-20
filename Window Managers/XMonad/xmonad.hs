@@ -1,4 +1,5 @@
- -- Base
+-- 
+-- Base
 import XMonad
 import System.IO (hPutStrLn)
 import System.Exit (exitSuccess)
@@ -103,6 +104,8 @@ import XMonad.Prompt.FuzzyMatch
 import Data.Char (isSpace, toUpper)
 import Control.Arrow (first)
 import Data.List (isPrefixOf, nub)
+import Data.List.Split
+import System.Process
 import XMonad.Prompt.Window
 import XMonad.Prompt.XMonad
 import XMonad.Layout.Renamed
@@ -121,6 +124,9 @@ myBrowser = "firefox"
 myFont :: String
 myFont = "xft:Noto Sans:size=10"
 
+financeWebsites = do
+  finance <- readProcess "rg" ["http", "/home/arya/Documents/Org/Brain/Learning/Business/StockMarket.org"] "" 
+  Data.List.Split.splitOn "+" finance
 -- XPrompt
 -- The layout hook
 myLayoutHook = maximizeWithPadding 0 $ smartBorders $ avoidStruts $ mouseResize $ windowArrange $ T.toggleLayouts floats
@@ -292,11 +298,8 @@ xKill w = withDisplay $ \d -> do
 myManageHook = namedScratchpadManageHook scratchpads 
 myHandleEventHook = minimizeEventHook
 
-financeWebsites = [ "Fire",
-                  "Emacs"
-                  ]
 
-browse a = spawn (myBrowser ++ " " ++ a)
+browse a = spawn (myBrowser ++ " \"" ++ a ++ "\"")
 
 main = do
     xmproc <- spawnPipe "xmobar"
