@@ -97,6 +97,7 @@ import qualified Data.Map                            as M
 import qualified XMonad.StackSet                     as W
 import XMonad.Prompt
 import XMonad.Prompt.Shell
+import XMonad.Prompt.AppLauncher
 import XMonad.Prompt.Man
 import XMonad.Prompt.FuzzyMatch
 import Data.Char (isSpace, toUpper)
@@ -114,14 +115,13 @@ import XMonad.Hooks.InsertPosition
 altMask :: KeyMask
 altMask = mod1Mask         -- Setting this for use in xprompts
 
-
-
--- what happens when we send an IncMaster message to Full --- Nothing
-prop_sendmsg_full (NonNegative k) =
-         isNothing (Full `pureMessage` (SomeMessage (IncMasterN k)))
+myBrowser :: String
+myBrowser = "firefox"
 
 myFont :: String
 myFont = "xft:Noto Sans:size=10"
+
+-- XPrompt
 -- The layout hook
 myLayoutHook = maximizeWithPadding 0 $ smartBorders $ avoidStruts $ mouseResize $ windowArrange $ T.toggleLayouts floats
                $ mkToggle (NBFULL ?? NOBORDERS ?? EOT) myDefaultLayout
@@ -191,7 +191,6 @@ threeRow = renamed [Replace "threeRow"]
            $ ThreeCol 1 (3/100) (1/2)
 tabs     = renamed [Replace "tabs"]
            $ tabbed shrinkText myTabTheme
-floating = withBorder 5 $ simpleFloat
 mySpacing :: Integer -> l a -> XMonad.Layout.LayoutModifier.ModifiedLayout Spacing l a
 mySpacing i = spacingRaw False (Border i i i i) True (Border i i i i) True
 
@@ -239,7 +238,7 @@ runXPConfig = def
       , searchPredicate     = isPrefixOf
       , defaultPrompter     = id
       , alwaysHighlight     = True
-      , maxComplRows        = Nothing      -- set to 'Just 5' for 5 rows
+      , maxComplRows        = Just 10      -- set to 'Just 5' for 5 rows
       }
 
 myXPKeymap :: M.Map (KeyMask,KeySym) (XP ())
@@ -256,6 +255,8 @@ myXPKeymap = M.fromList $
      , (xK_y, pasteString)           -- paste a string
      , (xK_g, quit)                  -- quit out of prompt
      , (xK_bracketleft, quit)
+     , (xK_n, moveHistory W.focusUp')
+     , (xK_p, moveHistory W.focusDown')
      ]
      ++
      map (first $ (,) altMask)       -- meta key + <key>
@@ -276,8 +277,6 @@ myXPKeymap = M.fromList $
      , (xK_Right, moveCursor Next)
      , (xK_Home, startOfLine)
      , (xK_End, endOfLine)
-     , (xK_Down, moveHistory W.focusUp')
-     , (xK_Up, moveHistory W.focusDown')
      , (xK_Escape, quit)
      ]
 
@@ -292,6 +291,12 @@ xKill w = withDisplay $ \d -> do
 
 myManageHook = namedScratchpadManageHook scratchpads 
 myHandleEventHook = minimizeEventHook
+
+financeWebsites = [ "Fire",
+                  "Emacs"
+                  ]
+
+browse a = spawn (myBrowser ++ " " ++ a)
 
 main = do
     xmproc <- spawnPipe "xmobar"
@@ -330,10 +335,12 @@ main = do
        , ("M-t", withFocused toggleFloat)
        , ("M-p", shellPrompt runXPConfig)
        , ("M-r m", manPrompt runXPConfig)
+       , ("M-r f", inputPromptWithCompl runXPConfig "Finance"
+                    (mkComplFunFromList' financeWebsites ) ?+ browse)
        , ("M-r q", spawn "~/.emacs.d/scripts/quote")
        , ("M-d x", xmonadPrompt runXPConfig)
-       , ("M-d S-w", windowPrompt runXPConfig Bring allWindows)
-       , ("M-d w", windowPrompt runXPConfig Goto allWindows)
+       , ("M-S-w", windowPrompt runXPConfig Bring allWindows)
+       , ("M-w", windowPrompt runXPConfig Goto allWindows)
        , ("M-b", sendMessage $ MT.Toggle NOBORDERS)
        , ("M-C-h", sendMessage $ pullGroup L)
        , ("M-C-l", sendMessage $ pullGroup R)
