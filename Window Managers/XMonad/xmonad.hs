@@ -124,9 +124,6 @@ myBrowser = "firefox"
 myFont :: String
 myFont = "xft:Noto Sans:size=10"
 
-financeWebsites = do
-  finance <- readProcess "rg" ["http", "/home/arya/Documents/Org/Brain/Learning/Business/StockMarket.org"] "" 
-  Data.List.Split.splitOn "+" finance
 -- XPrompt
 -- The layout hook
 myLayoutHook = maximizeWithPadding 0 $ smartBorders $ avoidStruts $ mouseResize $ windowArrange $ T.toggleLayouts floats
@@ -336,10 +333,12 @@ main = do
        , ("M-<Page_Up>", spawn "picom-trans -c +5")
        , ("M-<Page_Down>", spawn "picom-trans -c -5")
        , ("M-t", withFocused toggleFloat)
-       , ("M-p", shellPrompt runXPConfig)
+       , ("M-p", spawn "rofi -show run -theme Pop-Dark -font 'Noto Sans 14'")
+       , ("M-S-p", spawn "rofi -show drun -theme Pop-Dark -font 'Noto Sans 14'")
        , ("M-r m", manPrompt runXPConfig)
-       , ("M-r f", inputPromptWithCompl runXPConfig "Finance"
-                    (mkComplFunFromList' financeWebsites ) ?+ browse)
+       , ("M-f f", spawn "sh ~/.config/sxhkd/scripts/bookmarks.sh")
+       -- , ("M-r f", inputPromptWithCompl runXPConfig "Finance"
+       --              ( mkComplFunFromList' financeWebsites ) ?+ browse)
        , ("M-r q", spawn "~/.emacs.d/scripts/quote")
        , ("M-d x", xmonadPrompt runXPConfig)
        , ("M-S-w", windowPrompt runXPConfig Bring allWindows)
