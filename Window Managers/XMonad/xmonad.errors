@@ -1,23 +1,23 @@
 
-xmonad.hs:303:30: warning: [-Wdeprecations]
-    In the use of ‘defaultConfig’
-    (imported from XMonad, but defined in XMonad.Config):
-    Deprecated: "Use def (from Data.Default, and re-exported by XMonad and XMonad.Config) instead."
-    |
-303 |     xmonad $ docks $  ewmh $ defaultConfig
-    |                              ^^^^^^^^^^^^^
-
-xmonad.hs:304:84: warning: [-Wdeprecations]
-    In the use of ‘defaultConfig’
-    (imported from XMonad, but defined in XMonad.Config):
-    Deprecated: "Use def (from Data.Default, and re-exported by XMonad and XMonad.Config) instead."
-    |
-304 |         { manageHook = insertPosition Master Newer <+> myManageHook <+> manageHook defaultConfig 
-    |                                                                                    ^^^^^^^^^^^^^
-
-xmonad.hs:306:1: warning: [-Wtabs]
-    Tab character found here, and in 11 further locations.
+xmonad.hs:299:1: warning: [-Wtabs]
+    Tab character found here, and in 17 further locations.
     Please use spaces instead.
     |
-306 |         , terminal = "st"
+299 |         [ className =? "Surf"   --> doRectFloat (W.RationalRect (1 % 8) (1 % 8) (3 % 4) (3 % 4))
     | ^^^^^^^^
+
+xmonad.hs:310:30: warning: [-Wdeprecations]
+    In the use of ‘defaultConfig’
+    (imported from XMonad, but defined in XMonad.Config):
+    Deprecated: "Use def (from Data.Default, and re-exported by XMonad and XMonad.Config) instead."
+    |
+310 |     xmonad $ docks $  ewmh $ defaultConfig
+    |                              ^^^^^^^^^^^^^
+
+xmonad.hs:311:84: warning: [-Wdeprecations]
+    In the use of ‘defaultConfig’
+    (imported from XMonad, but defined in XMonad.Config):
+    Deprecated: "Use def (from Data.Default, and re-exported by XMonad and XMonad.Config) instead."
+    |
+311 |         { manageHook = insertPosition Master Newer <+> myManageHook <+> manageHook defaultConfig 
+    |                                                                                    ^^^^^^^^^^^^^

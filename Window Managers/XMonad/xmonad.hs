@@ -1,9 +1,11 @@
 -- 
 -- Base
 import XMonad
+import Data.Ratio 
 import System.IO (hPutStrLn)
 import System.Exit (exitSuccess)
 import qualified XMonad.StackSet as W
+import XMonad.Hooks.ManageHelpers
 
     -- Actions
 import XMonad.Actions.CopyWindow (kill1, killAllOtherCopies)
@@ -126,7 +128,7 @@ myFont = "xft:Noto Sans:size=10"
 
 -- XPrompt
 -- The layout hook
-myLayoutHook = maximizeWithPadding 0 $ smartBorders $ avoidStruts $ mouseResize $ windowArrange $ T.toggleLayouts floats
+myLayoutHook = minimize $ maximizeWithPadding 0 $ smartBorders $ avoidStruts $ mouseResize $ windowArrange $ T.toggleLayouts floats
                $ mkToggle (NBFULL ?? NOBORDERS ?? EOT) myDefaultLayout
              where
                myDefaultLayout =     withBorder 2 $ tall
@@ -215,6 +217,7 @@ myTabTheme = def { fontName            = myFont
 
 scratchpads = [
     NS "Tmux" "st -c Tmux -e tmux" (className =? "Tmux") nonFloating ,
+    NS "FileManager" "st -c FileManager -e nnn -x" (className =? "FileManager") (doRectFloat (W.RationalRect (3 % 4) (1 % 8) (1 % 4) (3 % 4))) ,
     NS "Org" "emacs --config org" (title =? "Org") nonFloating ,
     NS "News" "emacs --config news" (title =? "News") nonFloating ,
     NS "Mail" "emacs --config mail" (title =? "Mail") nonFloating ,
@@ -292,7 +295,11 @@ xKill w = withDisplay $ \d -> do
     then killClient d w >> return ()
         else killClient d w >> return ()
 
-myManageHook = namedScratchpadManageHook scratchpads 
+myManageHook = composeAll
+	[ className =? "Surf"   --> doRectFloat (W.RationalRect (1 % 8) (1 % 8) (3 % 4) (3 % 4))
+	, className =? "tabbed"   --> doRectFloat (W.RationalRect (1 % 8) (1 % 8) (5 % 8) (3 % 4))
+	, namedScratchpadManageHook scratchpads 
+	]
 myHandleEventHook = minimizeEventHook
 
 
@@ -315,9 +322,11 @@ main = do
 	, startupHook = do
 			spawnOnce "sh ~/.config/sxhkd/scripts/session_start.sh"
         } `additionalKeysP`
-        [ ("M-S-z" , spawn "xscreensaver-command -lock")
-        , ("M-S-r" , spawn "xmonad --recompile && xmonad --restart")
+        [ ("M-S-r" , spawn "xmonad --recompile && xmonad --restart")
         , ("M-S-<Return>", namedScratchpadAction scratchpads "Tmux")
+        , ("M-S-f", do
+	namedScratchpadAction scratchpads "FileManager"
+	spawn "sh ~/.config/sxhkd/scripts/xdotoggle.sh tabbed")
         , ("M-d o", namedScratchpadAction scratchpads "Org")
         , ("M-d n", namedScratchpadAction scratchpads "News")
         , ("M-d t", namedScratchpadAction scratchpads "Tracking")
