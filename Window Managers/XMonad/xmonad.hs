@@ -296,7 +296,7 @@ xKill w = withDisplay $ \d -> do
         else killClient d w >> return ()
 
 myManageHook = composeAll
-	[ className =? "Surf"   --> doRectFloat (W.RationalRect (1 % 8) (1 % 8) (3 % 4) (3 % 4))
+	[ className =? "Surf"   --> doRectFloat (W.RationalRect (1 % 16) (1 % 16) (7 % 8) (7 % 8))
 	, className =? "tabbed"   --> doRectFloat (W.RationalRect (1 % 8) (1 % 8) (5 % 8) (3 % 4))
 	, namedScratchpadManageHook scratchpads 
 	]

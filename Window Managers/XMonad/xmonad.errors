@@ -3,7 +3,7 @@ xmonad.hs:299:1: warning: [-Wtabs]
     Tab character found here, and in 17 further locations.
     Please use spaces instead.
     |
-299 |         [ className =? "Surf"   --> doRectFloat (W.RationalRect (1 % 8) (1 % 8) (3 % 4) (3 % 4))
+299 |         [ className =? "Surf"   --> doRectFloat (W.RationalRect (1 % 16) (1 % 16) (7 % 8) (7 % 8))
     | ^^^^^^^^
 
 xmonad.hs:310:30: warning: [-Wdeprecations]
