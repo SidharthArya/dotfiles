@@ -1,4 +1,3 @@
--- 
 -- Base
 import XMonad
 import Data.Ratio 
