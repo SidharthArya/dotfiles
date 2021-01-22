@@ -6,15 +6,5 @@
 
 config_version: 2
 settings:
-  fonts.web.family.fixed:
-    global: Noto Sans Mono
-  fonts.web.family.sans_serif:
-    global: Noto Sans
-  fonts.web.family.serif:
-    global: Noto Sans
-  fonts.web.family.standard:
-    global: Noto Sans
-  fonts.web.size.default:
-    global: 20
-  fonts.web.size.default_fixed:
-    global: 16
+  content.notifications:
+    https://colab.research.google.com: false
