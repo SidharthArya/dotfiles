@@ -1,4 +1,4 @@
-Suckless="st dwm"
-WindowManager="Dwm"
+Suckless="tabbed"
+WindowManager="Bspwm"
 TextEditor="Emacs Neovim"
 
