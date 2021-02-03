@@ -6,9 +6,5 @@
 
 config_version: 2
 settings:
-  content.media.audio_video_capture:
-    https://meet.google.com: true
   content.notifications:
     https://kite.zerodha.com: true
-    https://meet.google.com: true
-    https://web.whatsapp.com: true
