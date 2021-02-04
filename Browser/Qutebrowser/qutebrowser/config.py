@@ -121,7 +121,6 @@ config.set('content.headers.user_agent', 'Mozilla/5.0 ({os_info}) AppleWebKit/53
 # setting with a URL pattern instead. Local domains are always exempt
 # from hostblocking.
 # Type: List of UrlPattern
-c.content.host_blocking.whitelist = ['*://microsoft.com/']
 
 # Load images automatically in web pages.
 # Type: Bool
