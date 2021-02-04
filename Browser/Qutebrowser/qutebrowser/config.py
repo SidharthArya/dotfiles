@@ -11,7 +11,7 @@
 #   qute://help/settings.html
 
 # Uncomment this to still load settings configured via autoconfig.yml
-# config.load_autoconfig()
+config.load_autoconfig(False)
 
 # Load a restored tab as soon as it takes focus.
 # Type: Bool
@@ -190,6 +190,8 @@ c.fonts.web.size.default = 20
 # Default font size (in pixels) for fixed-pitch text.
 # Type: Int
 c.fonts.web.size.default_fixed = 16
+
+config.set("zoom.default",  "125%")
 
 # Bindings for normal mode
 config.bind('\\p', 'spawn --userscript mpv')
