@@ -209,3 +209,16 @@ config.bind('zzg', 'spawn --userscript query_engine github 1')
 config.bind('zzs', 'spawn --userscript query_engine google 1')
 config.bind('zzy', 'spawn --userscript query_engine youtube 1')
 config.bind(';P', "open javascript:location.href='org-protocol://capture?template=L&url=' + encodeURIComponent(location.href) + '&title=' + encodeURIComponent(document.title)")
+
+config.set('url.searchengines', {
+    "aur": "https://aur.archlinux.org/packages/?O=0&K={}",
+    "g": "https://www.google.com/search?q={}",
+    "a": "https://www.amazon.in/s?k={}",
+    "arx": "https://arxiv.org/search/?query={}&searchtype=all",
+    "sch": "https://scholar.google.com/scholar?hl=en&q={}",
+    "gh": "https://github.com/search?q={}",
+    "pdf": "https://www.pdfdrive.com/search?q={}",
+    "pt": "https://pytorch.org/docs/stable/search.html?q={}&check_keywords=yes&area=default",
+    "tf": "https://www.tensorflow.org/s/results?q={}",
+    "y": "https://www.youtube.com/search?q={}",
+    "DEFAULT": "https://duckduckgo.com/?q={}"})

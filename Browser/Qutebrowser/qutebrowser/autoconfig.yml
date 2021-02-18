@@ -6,13 +6,5 @@
 
 config_version: 2
 settings:
-  content.media.audio_capture:
-    https://meet.google.com: true
-  content.media.audio_video_capture:
-    https://meet.google.com: true
-  content.media.video_capture:
-    https://meet.google.com: true
   content.notifications:
-    https://meet.google.com: true
-  content.register_protocol_handler:
-    https://mail.google.com?extsrc=mailto&url=%25s: true
+    https://colab.research.google.com: true
