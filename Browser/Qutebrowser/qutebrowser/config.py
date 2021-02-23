@@ -154,6 +154,9 @@ config.set('content.javascript.enabled', True, 'qute://*/*')
 #   - ask
 config.set('content.notifications', False, 'https://www.reddit.com')
 
+config.set('tabs.select_on_remove', 'last-used')
+config.set('tabs.show', 'multiple')
+
 # Default font families to use. Whenever "default_family" is used in a
 # font setting, it's replaced with the fonts listed here. If set to an
 # empty value, a system-specific monospace default is used.
@@ -182,7 +185,6 @@ c.fonts.web.family.serif = 'Noto Sans'
 # Font family for sans-serif fonts.
 # Type: FontFamily
 c.fonts.web.family.sans_serif = 'Noto Sans'
-
 # Default font size (in pixels) for regular text.
 # Type: Int
 c.fonts.web.size.default = 20
@@ -196,6 +198,15 @@ config.set("zoom.default",  "125%")
 # Bindings for normal mode
 config.bind('\\p', 'spawn --userscript mpv')
 config.bind('\\s', 'spawn --userscript speak')
+config.bind('\\cit', 'spawn --userscript org-capture Pit')
+config.bind('\\ciw', 'spawn --userscript org-capture Piw')
+config.bind('\\cis', 'spawn --userscript org-capture Pis')
+config.bind('\\cid', 'spawn --userscript org-capture Pid')
+config.bind('\\cut', 'spawn --userscript org-capture Put')
+config.bind('\\cuw', 'spawn --userscript org-capture Puw')
+config.bind('\\cus', 'spawn --userscript org-capture Pus')
+config.bind('\\cud', 'spawn --userscript org-capture Pud')
+config.bind('\\cl', 'spawn --userscript org-store-link')
 config.bind('`', 'tab-focus last')
 config.bind('zd', 'spawn --userscript query_engine dict')
 config.bind('zg', 'spawn --userscript query_engine github')
@@ -219,6 +230,7 @@ config.set('url.searchengines', {
     "gh": "https://github.com/search?q={}",
     "pdf": "https://www.pdfdrive.com/search?q={}",
     "pt": "https://pytorch.org/docs/stable/search.html?q={}&check_keywords=yes&area=default",
+    "pip": "https://pypi.org/search/?q={}",
     "tf": "https://www.tensorflow.org/s/results?q={}",
     "y": "https://www.youtube.com/search?q={}",
     "DEFAULT": "https://duckduckgo.com/?q={}"})
