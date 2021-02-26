@@ -223,7 +223,7 @@ config.bind(';P', "open javascript:location.href='org-protocol://capture?templat
 
 config.set('url.searchengines', {
     "aur": "https://aur.archlinux.org/packages/?O=0&K={}",
-    "g": "https://www.google.com/search?q={}",
+    "DEFAULT": "https://www.google.com/search?q={}",
     "a": "https://www.amazon.in/s?k={}",
     "arx": "https://arxiv.org/search/?query={}&searchtype=all",
     "sch": "https://scholar.google.com/scholar?hl=en&q={}",
@@ -233,4 +233,4 @@ config.set('url.searchengines', {
     "pip": "https://pypi.org/search/?q={}",
     "tf": "https://www.tensorflow.org/s/results?q={}",
     "y": "https://www.youtube.com/search?q={}",
-    "DEFAULT": "https://duckduckgo.com/?q={}"})
+    "d": "https://duckduckgo.com/?q={}"})
