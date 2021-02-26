@@ -6,5 +6,5 @@
 
 config_version: 2
 settings:
-  tabs.select_on_remove:
-    global: last-used
+  content.desktop_capture:
+    global: true
