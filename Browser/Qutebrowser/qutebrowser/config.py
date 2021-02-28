@@ -10,7 +10,7 @@
 #   qute://help/configuring.html
 #   qute://help/settings.html
 
-# Uncomment this to still load settings configured via autoconfig.yml
+# Change the argument to True to still load settings configured via autoconfig.yml
 config.load_autoconfig(False)
 
 # Load a restored tab as soon as it takes focus.
@@ -26,8 +26,7 @@ c.session.lazy_restore = True
 # Type: Bool
 c.auto_save.session = True
 
-# Automatically start playing `<video>` elements. Note: On Qt < 5.11,
-# this option needs a restart and does not support URL patterns.
+# Automatically start playing `<video>` elements.
 # Type: Bool
 c.content.autoplay = False
 
@@ -113,15 +112,6 @@ config.set('content.headers.user_agent', 'Mozilla/5.0 ({os_info}) AppleWebKit/{w
 # Type: FormatString
 config.set('content.headers.user_agent', 'Mozilla/5.0 ({os_info}) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99 Safari/537.36', 'https://*.slack.com/*')
 
-# A list of patterns that should always be loaded, despite being ad-
-# blocked. Note this whitelists blocked hosts, not first-party URLs. As
-# an example, if `example.org` loads an ad from `ads.example.org`, the
-# whitelisted host should be `ads.example.org`. If you want to disable
-# the adblocker on a given page, use the `content.host_blocking.enabled`
-# setting with a URL pattern instead. Local domains are always exempt
-# from hostblocking.
-# Type: List of UrlPattern
-
 # Load images automatically in web pages.
 # Type: Bool
 config.set('content.images', True, 'chrome-devtools://*')
@@ -154,8 +144,56 @@ config.set('content.javascript.enabled', True, 'qute://*/*')
 #   - ask
 config.set('content.notifications', False, 'https://www.reddit.com')
 
-config.set('tabs.select_on_remove', 'last-used')
-config.set('tabs.show', 'multiple')
+# Allow websites to register protocol handlers via
+# `navigator.registerProtocolHandler`.
+# Type: BoolAsk
+# Valid values:
+#   - true
+#   - false
+#   - ask
+config.set('content.register_protocol_handler', True, 'https://mail.google.com?extsrc=mailto&url=%25s')
+
+# Which tab to select when the focused tab is removed.
+# Type: SelectOnRemove
+# Valid values:
+#   - prev: Select the tab which came before the closed one (left in horizontal, above in vertical).
+#   - next: Select the tab which came after the closed one (right in horizontal, below in vertical).
+#   - last-used: Select the previously selected tab.
+c.tabs.select_on_remove = 'prev'
+
+# When to show the tab bar.
+# Type: String
+# Valid values:
+#   - always: Always show the tab bar.
+#   - never: Always hide the tab bar.
+#   - multiple: Hide the tab bar if only one tab is open.
+#   - switching: Show the tab bar when switching tabs.
+c.tabs.show = 'multiple'
+
+# Search engines which can be used via the address bar.  Maps a search
+# engine name (such as `DEFAULT`, or `ddg`) to a URL with a `{}`
+# placeholder. The placeholder will be replaced by the search term, use
+# `{{` and `}}` for literal `{`/`}` braces.  The following further
+# placeholds are defined to configure how special characters in the
+# search terms are replaced by safe characters (called 'quoting'):  *
+# `{}` and `{semiquoted}` quote everything except slashes; this is the
+# most   sensible choice for almost all search engines (for the search
+# term   `slash/and&amp` this placeholder expands to `slash/and%26amp`).
+# * `{quoted}` quotes all characters (for `slash/and&amp` this
+# placeholder   expands to `slash%2Fand%26amp`). * `{unquoted}` quotes
+# nothing (for `slash/and&amp` this placeholder   expands to
+# `slash/and&amp`). * `{0}` means the same as `{}`, but can be used
+# multiple times.  The search engine named `DEFAULT` is used when
+# `url.auto_search` is turned on and something else than a URL was
+# entered to be opened. Other search engines can be used by prepending
+# the search engine name to the search term, e.g. `:open google
+# qutebrowser`.
+# Type: Dict
+c.url.searchengines = {'aur': 'https://aur.archlinux.org/packages/?O=0&K={}', 'DEFAULT': 'https://www.google.com/search?q={}', 'a': 'https://www.amazon.in/s?k={}', 'arx': 'https://arxiv.org/search/?query={}&searchtype=all', 'sch': 'https://scholar.google.com/scholar?hl=en&q={}', 'gh': 'https://github.com/search?q={}', 'pdf': 'https://www.pdfdrive.com/search?q={}', 'pt': 'https://pytorch.org/docs/stable/search.html?q={}&check_keywords=yes&area=default', 'pip': 'https://pypi.org/search/?q={}', 'tf': 'https://www.tensorflow.org/s/results?q={}', 'y': 'https://www.youtube.com/search?q={}', 'd': 'https://duckduckgo.com/?q={}'}
+
+# Default zoom level.
+# Type: Perc
+c.zoom.default = '125%'
 
 # Default font families to use. Whenever "default_family" is used in a
 # font setting, it's replaced with the fonts listed here. If set to an
@@ -185,6 +223,7 @@ c.fonts.web.family.serif = 'Noto Sans'
 # Font family for sans-serif fonts.
 # Type: FontFamily
 c.fonts.web.family.sans_serif = 'Noto Sans'
+
 # Default font size (in pixels) for regular text.
 # Type: Int
 c.fonts.web.size.default = 20
@@ -193,20 +232,19 @@ c.fonts.web.size.default = 20
 # Type: Int
 c.fonts.web.size.default_fixed = 16
 
-config.set("zoom.default",  "125%")
-
 # Bindings for normal mode
-config.bind('\\p', 'spawn --userscript mpv')
-config.bind('\\s', 'spawn --userscript speak')
+config.bind(';P', "open javascript:location.href='org-protocol://capture?template=L&url=' + encodeURIComponent(location.href) + '&title=' + encodeURIComponent(document.title)")
+config.bind('\\cid', 'spawn --userscript org-capture Pid')
+config.bind('\\cis', 'spawn --userscript org-capture Pis')
 config.bind('\\cit', 'spawn --userscript org-capture Pit')
 config.bind('\\ciw', 'spawn --userscript org-capture Piw')
-config.bind('\\cis', 'spawn --userscript org-capture Pis')
-config.bind('\\cid', 'spawn --userscript org-capture Pid')
+config.bind('\\cl', 'spawn --userscript org-store-link')
+config.bind('\\cud', 'spawn --userscript org-capture Pud')
+config.bind('\\cus', 'spawn --userscript org-capture Pus')
 config.bind('\\cut', 'spawn --userscript org-capture Put')
 config.bind('\\cuw', 'spawn --userscript org-capture Puw')
-config.bind('\\cus', 'spawn --userscript org-capture Pus')
-config.bind('\\cud', 'spawn --userscript org-capture Pud')
-config.bind('\\cl', 'spawn --userscript org-store-link')
+config.bind('\\p', 'spawn --userscript mpv')
+config.bind('\\s', 'spawn --userscript speak')
 config.bind('`', 'tab-focus last')
 config.bind('zd', 'spawn --userscript query_engine dict')
 config.bind('zg', 'spawn --userscript query_engine github')
@@ -219,18 +257,3 @@ config.bind('zzd', 'spawn --userscript query_engine dict 1')
 config.bind('zzg', 'spawn --userscript query_engine github 1')
 config.bind('zzs', 'spawn --userscript query_engine google 1')
 config.bind('zzy', 'spawn --userscript query_engine youtube 1')
-config.bind(';P', "open javascript:location.href='org-protocol://capture?template=L&url=' + encodeURIComponent(location.href) + '&title=' + encodeURIComponent(document.title)")
-
-config.set('url.searchengines', {
-    "aur": "https://aur.archlinux.org/packages/?O=0&K={}",
-    "DEFAULT": "https://www.google.com/search?q={}",
-    "a": "https://www.amazon.in/s?k={}",
-    "arx": "https://arxiv.org/search/?query={}&searchtype=all",
-    "sch": "https://scholar.google.com/scholar?hl=en&q={}",
-    "gh": "https://github.com/search?q={}",
-    "pdf": "https://www.pdfdrive.com/search?q={}",
-    "pt": "https://pytorch.org/docs/stable/search.html?q={}&check_keywords=yes&area=default",
-    "pip": "https://pypi.org/search/?q={}",
-    "tf": "https://www.tensorflow.org/s/results?q={}",
-    "y": "https://www.youtube.com/search?q={}",
-    "d": "https://duckduckgo.com/?q={}"})
