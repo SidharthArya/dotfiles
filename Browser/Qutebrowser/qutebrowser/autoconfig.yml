@@ -6,7 +6,5 @@
 
 config_version: 2
 settings:
-  content.register_protocol_handler:
-    https://mail.google.com?extsrc=mailto&url=%25s: true
-  tabs.select_on_remove:
-    global: prev
+  zoom.default:
+    global: 100%

@@ -193,7 +193,7 @@ c.url.searchengines = {'aur': 'https://aur.archlinux.org/packages/?O=0&K={}', 'D
 
 # Default zoom level.
 # Type: Perc
-c.zoom.default = '125%'
+c.zoom.default = '100%'
 
 # Default font families to use. Whenever "default_family" is used in a
 # font setting, it's replaced with the fonts listed here. If set to an
