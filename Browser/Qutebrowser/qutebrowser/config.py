@@ -189,7 +189,10 @@ c.tabs.show = 'multiple'
 # the search engine name to the search term, e.g. `:open google
 # qutebrowser`.
 # Type: Dict
-c.url.searchengines = {'aur': 'https://aur.archlinux.org/packages/?O=0&K={}', 'DEFAULT': 'https://www.google.com/search?q={}', 'a': 'https://www.amazon.in/s?k={}', 'arx': 'https://arxiv.org/search/?query={}&searchtype=all', 'sch': 'https://scholar.google.com/scholar?hl=en&q={}', 'gh': 'https://github.com/search?q={}', 'pdf': 'https://www.pdfdrive.com/search?q={}', 'pt': 'https://pytorch.org/docs/stable/search.html?q={}&check_keywords=yes&area=default', 'pip': 'https://pypi.org/search/?q={}', 'tf': 'https://www.tensorflow.org/s/results?q={}', 'y': 'https://www.youtube.com/search?q={}', 'd': 'https://duckduckgo.com/?q={}'}
+c.url.searchengines = {'aur': 'https://aur.archlinux.org/packages/?O=0&K={}',
+                       'DEFAULT': 'https://www.google.com/search?q={}',
+                       'anime': 'https://9anime.city/search/?keyword={}',
+                       'a': 'https://www.amazon.in/s?k={}', 'arx': 'https://arxiv.org/search/?query={}&searchtype=all', 'sch': 'https://scholar.google.com/scholar?hl=en&q={}', 'gh': 'https://github.com/search?q={}', 'pdf': 'https://www.pdfdrive.com/search?q={}', 'pt': 'https://pytorch.org/docs/stable/search.html?q={}&check_keywords=yes&area=default', 'pip': 'https://pypi.org/search/?q={}', 'tf': 'https://www.tensorflow.org/s/results?q={}', 'y': 'https://www.youtube.com/search?q={}', 'd': 'https://duckduckgo.com/?q={}'}
 
 # Default zoom level.
 # Type: Perc
@@ -245,7 +248,7 @@ config.bind('\\cut', 'spawn --userscript org-capture Put')
 config.bind('\\cuw', 'spawn --userscript org-capture Puw')
 config.bind('\\p', 'spawn --userscript mpv')
 config.bind('\\s', 'spawn --userscript speak')
-config.bind('`', 'tab-focus last')
+config.bind('~', 'tab-focus last')
 config.bind('zd', 'spawn --userscript query_engine dict')
 config.bind('zg', 'spawn --userscript query_engine github')
 config.bind('zp', 'spawn --userscript pass pass')
