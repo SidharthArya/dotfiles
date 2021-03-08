@@ -7,4 +7,5 @@
 config_version: 2
 settings:
   content.notifications:
-    https://kissanime.rest: false
+    https://kissanime.rest: true
+    https://kite.zerodha.com: true
