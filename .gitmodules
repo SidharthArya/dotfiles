@@ -1,6 +1,6 @@
 [submodule "Text Editors/Emacs"]
 	path = Text Editors/Emacs
-	url = https://github.com/SidharthArya/.emacs.d
+	url = git@github.com:SidharthArya/.emacs.d
 [submodule "Window Managers/Bspwm"]
 	path = Window Managers/Bspwm
 	url = https://github.com/SidharthArya/.bspwm
@@ -16,12 +16,6 @@
 [submodule "Window Managers/Dwm"]
 	path = Window Managers/Dwm
 	url = https://github.com/SidharthArya/.dwm
-[submodule "File Manager/nnn"]
-	path = File Manager/nnn
-	url = https://github.com/jarun/nnn
-[submodule "Dependencies/icons-in-terminal"]
-	path = Dependencies/icons-in-terminal
-	url = https://github.com/sebastiencs/icons-in-terminal
 [submodule "Window Managers/XMonad"]
 	path = Window Managers/XMonad
 	url = git@github.com:SidharthArya/.xmonad.git

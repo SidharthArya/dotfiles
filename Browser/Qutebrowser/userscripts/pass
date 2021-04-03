@@ -17,7 +17,7 @@ case $1 in
 		;;
 esac
 
-echo enter-mode insert > $QUTE_FIFO
+echo mode-enter insert > $QUTE_FIFO
 echo insert-text $OUT  > $QUTE_FIFO
 if $ENTER
 then
@@ -26,5 +26,5 @@ else
 
 	echo "fake-key <Tab>" > $QUTE_FIFO
 fi
-echo enter-mode normal > $QUTE_FIFO
+echo mode-enter normal > $QUTE_FIFO
 echo $OUT

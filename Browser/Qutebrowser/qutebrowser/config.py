@@ -45,8 +45,38 @@ c.content.autoplay = False
 #   - no-3rdparty: Accept cookies from the same origin only. This is known to break some sites, such as GMail.
 #   - no-unknown-3rdparty: Accept cookies from the same origin only, unless a cookie is already set for the domain. On QtWebEngine, this is the same as no-3rdparty.
 #   - never: Don't accept cookies at all.
-config.set('content.cookies.accept', 'all', 'chrome-devtools://*')
+colors = {
+    "white": "#c2c2c7",
+    "black": "#111115",
+    "blue": "#0A84FF",
+    "red": "#FF375F"
+}
 
+config.set('content.cookies.accept', 'all', 'chrome-devtools://*')
+config.set('colors.tabs.bar.bg',  colors["white"])
+config.set('colors.tabs.even.bg',  colors["white"])
+config.set('colors.tabs.odd.bg',  colors["white"])
+config.set('colors.tabs.even.fg',  colors["black"])
+config.set('colors.tabs.odd.fg',  colors["black"])
+config.set('colors.tabs.selected.even.bg',  colors["black"])
+config.set('colors.tabs.selected.odd.bg',  colors["black"])
+config.set('colors.tabs.selected.even.fg',  colors["white"])
+config.set('colors.tabs.selected.odd.fg',  colors["white"])
+
+config.set('colors.completion.category.bg',  colors["black"])
+config.set('colors.completion.category.fg',  colors["white"])
+config.set('colors.completion.fg',  colors["black"])
+config.set('colors.completion.even.bg',  colors["white"])
+config.set('colors.completion.odd.bg',  colors["white"])
+config.set('colors.completion.item.selected.bg',  colors["blue"])
+config.set('colors.completion.item.selected.fg',  colors["black"])
+config.set('colors.statusbar.normal.bg',  colors["black"])
+config.set('colors.statusbar.normal.fg',  colors["white"])
+config.set('colors.completion.scrollbar.bg',  colors["black"])
+config.set('colors.completion.scrollbar.fg',  colors["white"])
+config.set('colors.downloads.bar.bg',  colors["black"])
+config.set('colors.downloads.error.bg',  colors["red"])
+config.set('colors.downloads.error.bg',  colors["white"])
 # Which cookies to accept. With QtWebEngine, this setting also controls
 # other features with tracking capabilities similar to those of cookies;
 # including IndexedDB, DOM storage, filesystem API, service workers, and
@@ -189,10 +219,11 @@ c.tabs.show = 'multiple'
 # the search engine name to the search term, e.g. `:open google
 # qutebrowser`.
 # Type: Dict
-c.url.searchengines = {'aur': 'https://aur.archlinux.org/packages/?O=0&K={}',
-                       'DEFAULT': 'https://www.google.com/search?q={}',
-                       'anime': 'https://9anime.city/search/?keyword={}',
-                       'a': 'https://www.amazon.in/s?k={}', 'arx': 'https://arxiv.org/search/?query={}&searchtype=all', 'sch': 'https://scholar.google.com/scholar?hl=en&q={}', 'gh': 'https://github.com/search?q={}', 'pdf': 'https://www.pdfdrive.com/search?q={}', 'pt': 'https://pytorch.org/docs/stable/search.html?q={}&check_keywords=yes&area=default', 'pip': 'https://pypi.org/search/?q={}', 'tf': 'https://www.tensorflow.org/s/results?q={}', 'y': 'https://www.youtube.com/search?q={}', 'd': 'https://duckduckgo.com/?q={}'}
+c.url.searchengines = {'aur': 'https://aur.archlinux.org/packages/?O=0&K={}', 'DEFAULT': 'https://www.google.com/search?q={}', 'anime': 'https://9anime.city/search/?keyword={}', 't': 'https://twitter.com/search?q={}&src=typed_query', 'a': 'https://www.amazon.in/s?k={}', 'arx': 'https://arxiv.org/search/?query={}&searchtype=all', 'sch': 'https://scholar.google.com/scholar?hl=en&q={}', 'gh': 'https://github.com/search?q={}', 'pdf': 'https://www.pdfdrive.com/search?q={}', 'pt': 'https://pytorch.org/docs/stable/search.html?q={}&check_keywords=yes&area=default', 'pip': 'https://pypi.org/search/?q={}', 'tf': 'https://www.tensorflow.org/s/results?q={}', 'y': 'https://www.youtube.com/search?q={}', 'd': 'https://duckduckgo.com/?q={}', 'appimage': 'https://www.appimagehub.com/find?search={}'}
+
+# Page(s) to open at the start.
+# Type: List of FuzzyUrl, or FuzzyUrl
+c.url.start_pages = 'https://inshorts.com/en/read'
 
 # Default zoom level.
 # Type: Perc
@@ -237,18 +268,17 @@ c.fonts.web.size.default_fixed = 16
 
 # Bindings for normal mode
 config.bind(';P', "open javascript:location.href='org-protocol://capture?template=L&url=' + encodeURIComponent(location.href) + '&title=' + encodeURIComponent(document.title)")
-config.bind('\\cid', 'spawn --userscript org-capture Pid')
-config.bind('\\cis', 'spawn --userscript org-capture Pis')
-config.bind('\\cit', 'spawn --userscript org-capture Pit')
-config.bind('\\ciw', 'spawn --userscript org-capture Piw')
-config.bind('\\cl', 'spawn --userscript org-store-link')
-config.bind('\\cud', 'spawn --userscript org-capture Pud')
-config.bind('\\cus', 'spawn --userscript org-capture Pus')
-config.bind('\\cut', 'spawn --userscript org-capture Put')
-config.bind('\\cuw', 'spawn --userscript org-capture Puw')
 config.bind('\\p', 'spawn --userscript mpv')
 config.bind('\\s', 'spawn --userscript speak')
-config.bind('~', 'tab-focus last')
+config.bind('cid', 'spawn --userscript org-capture Pid')
+config.bind('cis', 'spawn --userscript org-capture Pis')
+config.bind('cit', 'spawn --userscript org-capture Pit')
+config.bind('ciw', 'spawn --userscript org-capture Piw')
+config.bind('cl', 'spawn --userscript org-store-link')
+config.bind('cud', 'spawn --userscript org-capture Pud')
+config.bind('cus', 'spawn --userscript org-capture Pus')
+config.bind('cut', 'spawn --userscript org-capture Put')
+config.bind('cuw', 'spawn --userscript org-capture Puw')
 config.bind('zd', 'spawn --userscript query_engine dict')
 config.bind('zg', 'spawn --userscript query_engine github')
 config.bind('zp', 'spawn --userscript pass pass')
@@ -260,3 +290,4 @@ config.bind('zzd', 'spawn --userscript query_engine dict 1')
 config.bind('zzg', 'spawn --userscript query_engine github 1')
 config.bind('zzs', 'spawn --userscript query_engine google 1')
 config.bind('zzy', 'spawn --userscript query_engine youtube 1')
+config.bind('~', 'tab-focus last')
