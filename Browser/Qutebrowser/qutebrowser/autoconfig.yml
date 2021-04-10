@@ -6,5 +6,12 @@
 
 config_version: 2
 settings:
+  content.media.audio_capture:
+    https://meet.google.com: true
+  content.media.audio_video_capture:
+    https://meet.google.com: true
+  content.media.video_capture:
+    https://meet.google.com: true
   content.notifications:
-    https://colab.research.google.com: true
+    https://meet.google.com: true
+    https://www.analyticsvidhya.com: false
