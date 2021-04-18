@@ -172,8 +172,9 @@ config.set('content.javascript.enabled', True, 'qute://*/*')
 #   - true
 #   - false
 #   - ask
-config.set('content.notifications', False, 'https://www.reddit.com')
+# config.set('content.notifications', False, 'https://www.reddit.com')
 
+config.set('content.notifications.presenter', "libnotify")
 # Allow websites to register protocol handlers via
 # `navigator.registerProtocolHandler`.
 # Type: BoolAsk
