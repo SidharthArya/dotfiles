@@ -6,6 +6,5 @@
 
 config_version: 2
 settings:
-  content.notifications.enabled:
-    https://economictimes.indiatimes.com: false
-    https://www.reddit.com: false
+  content.geolocation:
+    https://www.swiggy.com: true
