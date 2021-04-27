@@ -6,5 +6,5 @@
 
 config_version: 2
 settings:
-  content.geolocation:
-    https://www.swiggy.com: true
+  content.notifications.enabled:
+    https://www.youtube.com: false
