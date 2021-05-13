@@ -22,3 +22,6 @@
 [submodule "Packages"]
 	path = Packages
 	url = https://github.com/SidharthArya/arch-packages
+[submodule "Bots"]
+	path = Bots
+	url = git@github.com:SidharthArya/Bots.git
