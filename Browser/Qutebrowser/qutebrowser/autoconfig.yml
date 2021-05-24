@@ -7,4 +7,6 @@
 config_version: 2
 settings:
   content.notifications.enabled:
+    https://colab.research.google.com: true
     https://www.reddit.com: false
+    https://www.truelancer.com: false
