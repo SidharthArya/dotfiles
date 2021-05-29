@@ -7,4 +7,5 @@
 config_version: 2
 settings:
   content.notifications.enabled:
-    https://kite.zerodha.com: true
+    https://kissasian.la: false
+    https://kite.zerodha.com: false
