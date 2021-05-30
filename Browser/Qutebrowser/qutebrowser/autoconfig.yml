@@ -6,5 +6,5 @@
 
 config_version: 2
 settings:
-  content.notifications.enabled:
-    https://kissasian.la: false
+  content.geolocation:
+    https://www.cowin.gov.in: false
