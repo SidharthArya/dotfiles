@@ -25,3 +25,6 @@
 [submodule "Bots"]
 	path = Bots
 	url = git@github.com:SidharthArya/Bots.git
+[submodule "Nix"]
+	path = Nix
+	url = https://github.com/SidharthArya/nix-config
