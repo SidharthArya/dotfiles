@@ -21,7 +21,7 @@
 	url = git@github.com:SidharthArya/.xmonad.git
 [submodule "Packages"]
 	path = Packages
-	url = https://github.com/SidharthArya/arch-packages
+	url = https://github.com/SidharthArya/pakka-config
 [submodule "Bots"]
 	path = Bots
 	url = git@github.com:SidharthArya/Bots.git
