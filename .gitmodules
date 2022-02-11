@@ -28,3 +28,6 @@
 [submodule "Nix"]
 	path = Nix
 	url = https://github.com/SidharthArya/nix-config
+[submodule "Browser/Qutebrowser"]
+	path = Nix
+	url = https://github.com/SidharthArya/.qutebrowser
